@@ -1,0 +1,25 @@
+[user]
+	email = vvusirik@gmail.com
+	name = Vishal Vusirikala
+[credential]
+    helper = "cache --timeout=3600"
+[core]
+    editor = nvim
+[difftool]
+    prompt = true
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+    # Add modified / deleted files to staging and commit
+	ca = commit -a
+	st = status
+	amend = commit --amend --no-edit
+	prev = checkout HEAD^
+	unstage = restore --staged
+    # graph = log --graph --oneline --decorate
+    graph = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) <%an> %Creset' --abbrev-commit
