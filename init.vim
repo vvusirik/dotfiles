@@ -18,6 +18,7 @@ set shiftwidth=4                " One tab == four spaces.
 set tabstop=4                   " One tab == four spaces.
 set nu
 set nowrap
+set encoding=UTF-8
 
 " ignorecase + smartcase = only pay attention to casing when there is a
 " capitalized character
@@ -31,12 +32,8 @@ syntax enable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 call plug#begin('~/.vim/plugged')
-
     Plug 'gmarik/Vundle.vim'                           " Vundle
     Plug 'itchyny/lightline.vim'                       " Lightline statusbar
-    Plug 'suan/vim-instant-markdown', {'rtp': 'after'} " Markdown Preview
-    Plug 'frazrepo/vim-rainbow'
-    Plug 'vifm/vifm.vim'                               " Vifm
     Plug 'scrooloose/nerdtree'                         " Nerdtree
     Plug 'scrooloose/nerdcommenter'                    " Nerdtree
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'     " Highlighting Nerdtree
@@ -87,7 +84,7 @@ nnoremap <C-p> :Files<Cr>
 nnoremap <C-y> :Rg<Cr>
 
 " Reload init.vim
-nnoremap <Leader>sv :PlugInstall <bar> q <bar> source $MYVIMRC<CR>
+nnoremap <Leader>sv :PlugInstall <bar> source $MYVIMRC<CR>
 
 " Quit all windows
 nnoremap ZA :qa<CR>
@@ -102,8 +99,6 @@ highlight Statement        ctermfg=2    ctermbg=none    cterm=none
 highlight Directory        ctermfg=4    ctermbg=none    cterm=none
 highlight StatusLine       ctermfg=7    ctermbg=8       cterm=none
 highlight StatusLineNC     ctermfg=7    ctermbg=8       cterm=none
-highlight NERDTreeClosable ctermfg=2
-highlight NERDTreeOpenable ctermfg=8
 highlight Comment          ctermfg=4    ctermbg=none    cterm=italic
 highlight Constant         ctermfg=12   ctermbg=none    cterm=none
 highlight Special          ctermfg=4    ctermbg=none    cterm=none
@@ -128,12 +123,12 @@ set noshowmode
 " Uncomment to autostart the NERDTree
 " autocmd vimenter * NERDTree
 map <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeDirArrowExpandable = '►'
-let g:NERDTreeDirArrowCollapsible = '▼'
+let g:NERDTreeWinSize=38
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
 let NERDTreeShowLineNumbers=1
 let NERDTreeShowHidden=1
-let NERDTreeMinimalUI = 1
-let g:NERDTreeWinSize=38
+let NERDTreeMinimalUI=1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Mouse Scrolling
@@ -179,6 +174,14 @@ nnoremap <Leader>gc :GCheckout<CR>
 nnoremap <Leader>b :w<CR> :Black<CR> :w<CR>
 let g:python_highlight_all = 1
 nnoremap <Leader>mp :set makeprg=mypy\ --ignore-missing-imports\ % <bar> make<CR> :call ToggleQFList(1)<CR>
+
+" Comment/uncomment block
+vnoremap <silent> # :s/^/# /<cr>:noh<cr>
+vnoremap <silent> -# :s/^# //<cr>:noh<cr>
+
+" Comment line
+nnoremap <Leader># :s/^/# /<cr>:noh<cr>
+nnoremap <Leader>-# :s/^# //<cr>:noh<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Quickfix list
