@@ -126,33 +126,7 @@ if [ -f $HOME/.local/lib/python3.8/site-packages/powerline/bindings/bash/powerli
     source $HOME/.local/lib/python3.8/site-packages/powerline/bindings/bash/powerline.sh
 fi
 
-## ALIASES (TODO: move to ~/.bash_aliases)
-# Reload bashrc
-alias bashrc='source ~/.bashrc'
+# oh my bash 
+OSH_THEME="powerline"
+plugins=(git bundler osx rake ruby)
 
-# open nvim with fzf
-alias fvim='nvim -o `fzf`'
-
-# "nvimdiff"
-alias nvimdiff='nvim -d'
-
-# activate vori env
-alias vorienv='source ~/vori/env/bin/activate'
-
-# Brave browser alias
-alias brave='brave-browser'
-
-# Launch my notes
-alias nvim_notes='nvim -O ~/wiki/wiki/index.wiki ~/wiki/wiki/todo.wiki ~/wiki/wiki/diary/diary.wiki'
-
-# git shortcuts
-alias gst='git st'
-
-# cheatsheet
-alias cht='bash ~/scripts/chtsht.sh'
-alias pycht='bash ~/scripts/chtsht.sh python'
-
-
-# PATH
-
-export PATH=$PATH:$HOME/bin

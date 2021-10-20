@@ -48,7 +48,6 @@ syntax enable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
     Plug 'itchyny/lightline.vim'                       " Lightline statusbar
-    Plug 'scrooloose/nerdtree'                         " Nerdtree
     Plug 'scrooloose/nerdcommenter'                    " Commenting (<Leader>cc)
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'     " Highlighting Nerdtree
     Plug 'vimwiki/vimwiki'                             " VimWiki 
@@ -58,10 +57,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/goyo.vim'                           " Distraction-free viewing
     Plug 'junegunn/limelight.vim'                      " Hyperfocus on a range
     Plug 'junegunn/vim-emoji'                          " Vim needs emojis!
-    "Plug 'git@github.com:Valloric/YouCompleteMe.git'   " YCM Auto completion and tagging
-
-    " Cheatsheet
-    "Plug 'dbeniamine/cheat.sh-vim'
 
     " Completion
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -74,22 +69,16 @@ call plug#begin('~/.vim/plugged')
     
     " Python
     Plug 'psf/black'                                   " Black python autoformatter
-    Plug 'vim-python/python-syntax'                    " Python highlighting
-
-    " fzf for fuzzy search
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
     
     " Git stuff
     Plug 'tpope/vim-fugitive'
     Plug 'vim-airline/vim-airline'                     " Git status line
     Plug 'airblade/vim-gitgutter'                      " Git gutter
-    "Plug 'stsewd/fzf-checkout.vim'
 
     " Floaterm floating terminal inside neovim
     Plug 'voldikss/vim-floaterm'
 
-    " theme
+    " Theme
     Plug 'morhetz/gruvbox'
 
     " Need vim nightly (0.5) for these
@@ -99,7 +88,6 @@ call plug#begin('~/.vim/plugged')
     
     " LSP
     Plug 'neovim/nvim-lspconfig'
-    " Plug 'nvim-lua/completion-nvim'
 
     " Treesitter enables better syntax highlighting 
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -131,19 +119,18 @@ function! s:find_git_root()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 
-command! ProjectFiles execute 'Files' s:find_git_root()
-"nnoremap <C-p> :ProjectFiles<CR>
-"nnoremap <C-p> :lua require'telescope.builtin'.find_files{}<cr>
-nnoremap <C-p> :lua require'telescope.builtin'.git_files{}<cr>
+nnoremap <C-p> :lua require('telescope.builtin').git_files{}<cr>
+nnoremap <Leader>p :lua require('telescope.builtin').find_files{}<cr>
 
 " Ctrl-y for FZF ripgrep on text in project 
-"nnoremap <C-y> :Rg<Cr>
-" TODO: live grep from project root with rg
-nnoremap <C-y> :lua require'telescope.builtin'.project_grep{}<cr>
+nnoremap <C-y> :Rg<Cr>
+nnoremap <C-y> :lua require('telescope.builtin').live_grep{search_dirs = require('utils').get_git_root()}<cr>
 
 " Ctrl-b for buffer search
-"nnoremap <C-b> :Buffers<Cr>
 nnoremap <C-b> <cmd>Telescope buffers<cr>
+
+" Ctrl-r for register search in insert mode
+"inoremap <C-r> <cmd>Telescope registers<cr>
 
 " Telescope mappings, too unstable for daily use
 nnoremap <Leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
@@ -171,25 +158,30 @@ nnoremap <Leader>s :w<CR>
 " visual paste won't replace lastest register
 vnoremap <Leader>p "_dP
 
+" Capital Y yanks till the end of line
+nnoremap Y y$
+
+" Keep editor centered when going through search results
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Keep cursor in the same position when line concat-ing
+nnoremap J mzJ`z 
+
+" Better undo breakpoints
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
+
+" Move lines up and down and respect indent rules
+" TODO: seems to trigger when ctrl / esc is pressed :/
+"nnoremap <M-j> :m .+1<CR>==
+"nnoremap <M-k> :m .-2<CR>==
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Theming
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-highlight LineNr           ctermfg=8    ctermbg=none    cterm=none
-highlight CursorLineNr     ctermfg=7    ctermbg=8       cterm=none
-highlight VertSplit        ctermfg=0    ctermbg=8       cterm=none
-highlight Statement        ctermfg=2    ctermbg=none    cterm=none
-highlight Directory        ctermfg=4    ctermbg=none    cterm=none
-highlight StatusLine       ctermfg=7    ctermbg=8       cterm=none
-highlight StatusLineNC     ctermfg=7    ctermbg=8       cterm=none
-highlight Comment          ctermfg=4    ctermbg=none    cterm=italic
-highlight Constant         ctermfg=12   ctermbg=none    cterm=none
-highlight Special          ctermfg=4    ctermbg=none    cterm=none
-highlight Identifier       ctermfg=6    ctermbg=none    cterm=none
-highlight PreProc          ctermfg=5    ctermbg=none    cterm=none
-highlight String           ctermfg=12   ctermbg=none    cterm=none
-highlight Number           ctermfg=1    ctermbg=none    cterm=none
-highlight Function         ctermfg=1    ctermbg=none    cterm=none
-
 " Lightline theme
 let g:lightline = {'colorscheme': 'gruvbox'}
 
@@ -207,16 +199,6 @@ set background=dark
 map <C-n> :CocCommand explorer<CR>
 map <Leader>u :UndotreeToggle<CR>
 
-" Uncomment to autostart the NERDTree
-" map <C-n> :NERDTreeToggle<CR>
-
-let g:NERDTreeWinSize=38
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let NERDTreeShowLineNumbers=1
-let NERDTreeShowHidden=1
-let NERDTreeMinimalUI=1
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Splits and Tabbed Files
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -231,8 +213,8 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-s> :vnew<CR>
 
-" Remap tab navigation to just CTRL + jk
-nnoremap <C-t> :tabnew<CR>
+" Focus current buffer in new tab
+nnoremap <C-t> :tabnew %<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimwiki
@@ -244,29 +226,28 @@ let g:vimwiki_listsyms = '✗○◐●✓'
 nnoremap <Leader>to :e ~/wiki/wiki/todo.wiki<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Fugitive and Git Checkout
+" => Fugitive 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <Leader>gs :G<CR>
-nmap <Leader>gj :diffget //2<CR>
-nmap <Leader>gk :diffget //3<CR>
+nnoremap <Leader>gs :G<CR>
+nnoremap <Leader>gc :Git commit<CR>
+nnoremap <Leader>ga :Git amend<CR>
+nnoremap <Leader>gp :Git push --force<CR>
 
-nnoremap <Leader>gc :GCheckout<CR>
+" Merge conflict resolution (use `dv` in Git status menu to open vertical diff split on an unmerged file)
+nnoremap <Leader>gh :diffget //2<CR>
+nnoremap <Leader>gl :diffget //3<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Leader b for write + Black format for python
-nnoremap <Leader>b :w<CR> :Black<CR> :w<CR>
-let g:python_highlight_all = 1
-nnoremap <Leader>mp :set makeprg=mypy\ --ignore-missing-imports\ % <bar> make <CR> copen <CR>
+"nnoremap <Leader>b :w<CR> :Black<CR> :w<CR>
+nnoremap <Leader>b :!black % -l 120<CR>
+nnoremap <Leader>mp :set makeprg=mypy\ --ignore-missing-imports\ % <bar> make <CR> :copen <CR>
 
-" Comment/uncomment block
-vnoremap <silent> # :s/^/# /<cr>:noh<cr>
-vnoremap <silent> -# :s/^# //<cr>:noh<cr>
-
-" Comment line
-nnoremap <Leader># :s/^/# /<cr>:noh<cr>
-nnoremap <Leader>-# :s/^# //<cr>:noh<cr>
+" Don't indent on ':'
+autocmd FileType python setlocal indentkeys-=<:>
+autocmd FileType python setlocal indentkeys-=:
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Floaterm
@@ -279,22 +260,28 @@ let g:floaterm_keymap_new    = '<M-n>'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Quickfix list
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>q :call ToggleQFList(1)<CR>
-let g:qf_global_visible = 0
-fun! ToggleQFList(global)
-    if g:qf_global_visible == 1
-        let g:qf_global_visible = 0
-        cclose
-    else
-        let g:qf_global_visible = 1
-        copen
-    endif
-endfun
+nnoremap <Leader>qo :copen<CR>
+nnoremap <Leader>qc :cclose<CR>
 
-" Navigate between QFL entries
-nnoremap <Leader>j :cprev<CR>
-nnoremap <Leader>k :cnext<CR>
+" Navigate between QFL entries and keep the cursor centered
+nnoremap <Leader>j :cprev<CR>zzzv
+nnoremap <Leader>k :cnext<CR>zzzv
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Python load vorienv at initialization
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Always use the same virtualenv for vim, regardless of what Python
+" environment is loaded in the shell from which vim is launched
+"let g:vim_virtualenv_path = '/home/vvusirik/Projects/vori/env'
+"if exists('g:vim_virtualenv_path')
+    "pythonx import os; import vim
+    "pythonx activate_this = os.path.join(vim.eval('g:vim_virtualenv_path'), 'bin/activate_this.py')
+    "pythonx with open(activate_this) as f: exec(f.read(), {'__file__': activate_this})
+"endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Lua stuff
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable Treesitter highlights
 lua require ('nvim-treesitter.configs').setup { highlight = { enable = true } }
 
@@ -352,8 +339,26 @@ end
 
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
-local servers = { "pyright" }
+local servers = { "pyright", "rust_analyzer" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
+
+nvim_lsp.rust_analyzer.setup({
+    on_attach=on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
 EOF
