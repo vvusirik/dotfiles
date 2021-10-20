@@ -2,7 +2,7 @@
     email = vvusirik@gmail.com
     name = Vishal Vusirikala
 [credential]
-    helper = "cache --timeout=3600"
+	helper = cache --timeout 3600
 [core]
     editor = nvim
 [difftool]
@@ -25,3 +25,5 @@
     unstage = restore --staged
     # graph = log --graph --oneline --decorate
     graph = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) <%an> %Creset' --abbrev-commit
+    # force push and auto-infer the remote branch to track
+    submit = "! git push -u origin $(git rev-parse --abbrev-ref HEAD) -f"
