@@ -1,0 +1,1 @@
+/home/vvusirik/.bash_aliases
