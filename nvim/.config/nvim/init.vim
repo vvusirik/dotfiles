@@ -3,6 +3,7 @@ filetype off                  " required
 
 set nocompatible              " be iMproved, required
 set noerrorbells
+"
 " ignorecase + smartcase = only pay attention to casing when there is a
 " capitalized character
 set ignorecase
@@ -11,11 +12,9 @@ set incsearch                 " Highlight as you search
 set nohlsearch                " Don't persist highlight 
 set number relativenumber     " Display line numbers
 set hidden                    " Hidden buffers
-"set updatetime=100            " How fast writes to swap files (ms)
 set signcolumn=yes
 set mouse=nicr                " Mouse scrolling
-" Highlight the current line 
-set cursorline 
+set cursorline                " Highlight the current line 
 
 " swap files are annoying, use persistent undo instead
 set noswapfile
@@ -35,6 +34,8 @@ set smartindent                 " Auto indent on next line.
 set shiftwidth=4                " One tab == four spaces.
 set tabstop=4                   " One tab == four spaces.
 set softtabstop=4               " One tab == four spaces.
+set textwidth=0                 " Don't autowrap long lines
+set wrapmargin=0                " Don't autowrap long lines
 set nu
 set nowrap
 set encoding=UTF-8
@@ -43,63 +44,78 @@ set clipboard=unnamedplus       " Copy/paste between vim and other programs.
 syntax enable
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim Plugged 
+" => Plugged For Managing Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
-    Plug 'vimwiki/vimwiki'                             " VimWiki 
+    " Personal wiki 
+    Plug 'vimwiki/vimwiki'
 
-    Plug 'tpope/vim-surround'                          " Change surrounding marks
+    " Calendar plugin
+    Plug 'itchyny/calendar.vim'
+
+    " Persistent undo tree
+    Plug 'mbbill/undotree'
+
+    " Change surrounding marks
+    Plug 'tpope/vim-surround'
+
+    " Snippets
+    Plug 'SirVer/ultisnips'
 
     " Paren / quote completion
     Plug 'Raimondi/delimitMate'
-    
+
     " Fancy start screen
     Plug 'mhinz/vim-startify'
-    
-    " Persistent undo tree
-    Plug 'mbbill/undotree'
-    
+
     " Docstring generator
-    Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
+    Plug 'kkoomen/vim-doge'
 
     " Git stuff
     Plug 'tpope/vim-fugitive'
-    Plug 'airblade/vim-gitgutter'                      " Git gutter
-    
+
+    " Git gutter
+    Plug 'airblade/vim-gitgutter'
+
     " Smart chdir
     Plug 'airblade/vim-rooter'
 
+    Plug 'tpope/vim-dispatch'
+
     " Theme
-    Plug 'ellisonleao/gruvbox'
+    Plug 'ellisonleao/gruvbox.nvim'
 
-    " --- Need vim nightly (0.5) for these
-    " Lua utils
-    Plug 'nvim-lua/popup.nvim' 
+    " Need vim nightly (0.5) for these
+    Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
+    
+    " Treesitter enables better syntax highlighting 
+    Plug 'nvim-treesitter/nvim-treesitter'
 
-    " File navigation / fuzzy search 
-    Plug 'ThePrimeagen/harpoon'
+    " File / Buffer Navigation
     Plug 'nvim-telescope/telescope.nvim'
+    Plug 'ThePrimeagen/harpoon'
 
-    " Remove development
-    Plug 'chipsenkbeil/distant.nvim'
-
-    " Status line
-    Plug 'nvim-lualine/lualine.nvim'
-
-    " File tree and icons
+    " File explorer and icons
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'kyazdani42/nvim-tree.lua'
 
-    " Treesitter enables better syntax highlighting 
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    " Completion
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
+    
+    " Status line
+    Plug 'nvim-lualine/lualine.nvim'
 
+    " Use local neovim for remote server development
+    Plug 'chipsenkbeil/distant.nvim'
+ 
     " LSP
     Plug 'neovim/nvim-lspconfig'
     Plug 'folke/lsp-colors.nvim'
-
-    " Completion
-    Plug 'hrsh7th/nvim-cmp'
 
     " Commenting
     Plug 'numToStr/Comment.nvim'
@@ -126,9 +142,11 @@ nnoremap <Leader>gb :Telescope git_branches<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = " "
 
-" Reload init.vim
-nnoremap <Leader>sv source $MYVIMRC<CR>
-nnoremap <Leader>siv source $MYVIMRC <bar> :PlugInstall<CR>
+" Re-source init.vim
+nnoremap <Leader>sv :source $MYVIMRC<CR>
+
+" Re-source init.vim and install any new plugins
+nnoremap <Leader>siv :source $MYVIMRC <bar> :PlugInstall<CR>
 
 " Edit init.vim
 nnoremap <Leader>ev :e $MYVIMRC<CR>
@@ -152,6 +170,9 @@ nnoremap N Nzzzv
 " Keep cursor in the same position when line concat-ing
 nnoremap J mzJ`z 
 
+" Go to open / close brace with tab instead of %
+nnoremap <Tab> %
+
 " Better undo breakpoints
 inoremap , ,<c-g>u
 inoremap . .<c-g>u
@@ -162,14 +183,20 @@ inoremap ? ?<c-g>u
 inoremap <C-j> <C-o>:m .+1<CR>
 inoremap <C-k> <C-o>:m .-2<CR>
 
-" Change the current word
+" Current word becomes search object without moving cursor
+" (Useful when combined with cgn for multicursor like replacements of words)
+nnoremap + *N
 nnoremap - *Ncgn
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Theming
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" don't show the insert status line below lightline
+set noshowmode 
+
+" Gruvbox theme
 set termguicolors
-set background=dark " or light if you want light mode
+set background=dark
 colorscheme gruvbox
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -189,6 +216,20 @@ nnoremap <C-s> :vnew<CR>
 " Focus current buffer in new tab
 nnoremap <C-t> :tabnew %<CR>
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Snippets
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Edit snippets for current file type
+nnoremap <Leader>es :UltiSnipsEdit<CR>
+let g:UltiSnipsExpandTrigger = '<F10>'
+let g:UltiSnipsJumpForwardTrigger = '<c-l>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-h>'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => UndoTree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <Leader>u :UndotreeToggle<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimwiki
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -197,6 +238,13 @@ let g:vimwiki_list = [{'path':'~/wiki/wiki/', 'path_html':'~/wiki/docs/', 'auto_
 " Vimwiki todo status
 let g:vimwiki_listsyms = '✗○◐●✓'
 nnoremap <Leader>to :e ~/wiki/wiki/todo.md<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Calendar
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <Leader>cd :Cal -day<CR>
+nnoremap <Leader>cm :Cal -month<CR>
+nnoremap <Leader>cw :Cal -week<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fugitive 
@@ -214,6 +262,9 @@ nnoremap <Leader>gl :diffget //3<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader b for write + Black format for python
+nnoremap <Leader>b :!black % -l 120<CR>
+
 " Don't indent on ':'
 autocmd FileType python setlocal indentkeys-=<:>
 autocmd FileType python setlocal indentkeys-=:
@@ -224,14 +275,18 @@ let g:doge_doc_standard_python = 'google'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Floaterm
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let g:floaterm_keymap_toggle = '<M-t>'
-"let g:floaterm_keymap_next   = '<M-l>'
-"let g:floaterm_keymap_prev   = '<M-h>'
-"let g:floaterm_keymap_new    = '<M-n>'
+" let g:floaterm_keymap_toggle = '<M-t>'
+" let g:floaterm_keymap_next   = '<M-l>'
+" let g:floaterm_keymap_prev   = '<M-h>'
+" let g:floaterm_keymap_new    = '<M-n>'
+"
+" let g:floaterm_width = 0.9
+" let g:floaterm_height = 0.9
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Quickfix / Location list
+" => Quickfix / Location List
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Open / close q/l list
 nnoremap <Leader>qo :copen<CR>
 nnoremap <Leader>qc :cclose<CR>
 nnoremap <Leader>lo :lopen<CR>
@@ -242,14 +297,14 @@ nnoremap <Leader>qk :cprev<CR>zzzv
 nnoremap <Leader>qj :cnext<CR>zzzv
 nnoremap <Leader>lk :lprev<CR>zzzv
 nnoremap <Leader>lj :lnext<CR>zzzv
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Harpoon
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Note: <Enter> adds a file to the quick menu
+nnoremap <C-m> :lua require("harpoon.mark").add_file()<CR>
 nnoremap <M-m> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
-
-lua << EOF
-require("lua_init_conf")
-EOF
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Lua Plugin Configs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ~/.config/nvim/lua/lua_init_conf.lua
+lua require('lua_init_conf')
