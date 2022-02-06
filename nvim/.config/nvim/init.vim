@@ -43,21 +43,12 @@ set clipboard=unnamedplus       " Copy/paste between vim and other programs.
 syntax enable
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vundle For Managing Plugins
+" Vim Plugged 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
-    Plug 'itchyny/lightline.vim'                       " Lightline statusbar
-    Plug 'scrooloose/nerdcommenter'                    " Commenting (<Leader>cc)
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'     " Highlighting Nerdtree
     Plug 'vimwiki/vimwiki'                             " VimWiki 
 
     Plug 'tpope/vim-surround'                          " Change surrounding marks
-    Plug 'junegunn/goyo.vim'                           " Distraction-free viewing
-    Plug 'junegunn/limelight.vim'                      " Hyperfocus on a range
-    Plug 'junegunn/vim-emoji'                          " Vim needs emojis!
-
-    " Completion
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " Paren / quote completion
     Plug 'Raimondi/delimitMate'
@@ -71,58 +62,48 @@ call plug#begin('~/.vim/plugged')
     " Docstring generator
     Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 
-    " Multiline
-    "Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-
-    " Python
-    Plug 'psf/black'                                   " Black python autoformatter
-    
     " Git stuff
     Plug 'tpope/vim-fugitive'
-    Plug 'vim-airline/vim-airline'                     " Git status line
     Plug 'airblade/vim-gitgutter'                      " Git gutter
     
     " Smart chdir
     Plug 'airblade/vim-rooter'
 
-    " Floaterm floating terminal inside neovim
-    Plug 'voldikss/vim-floaterm'
-
     " Theme
-    Plug 'morhetz/gruvbox'
+    Plug 'ellisonleao/gruvbox'
 
-    " Need vim nightly (0.5) for these
+    " --- Need vim nightly (0.5) for these
+    " Lua utils
     Plug 'nvim-lua/popup.nvim' 
     Plug 'nvim-lua/plenary.nvim'
+
+    " File navigation / fuzzy search 
     Plug 'ThePrimeagen/harpoon'
     Plug 'nvim-telescope/telescope.nvim'
+
+    " Remove development
     Plug 'chipsenkbeil/distant.nvim'
- 
+
+    " Status line
+    Plug 'nvim-lualine/lualine.nvim'
+
+    " File tree and icons
+    Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'kyazdani42/nvim-tree.lua'
+
+    " Treesitter enables better syntax highlighting 
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
     " LSP
     Plug 'neovim/nvim-lspconfig'
     Plug 'folke/lsp-colors.nvim'
 
-    " Treesitter enables better syntax highlighting 
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    " Completion
+    Plug 'hrsh7th/nvim-cmp'
+
+    " Commenting
+    Plug 'numToStr/Comment.nvim'
 call plug#end()
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => CoC completion config
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Telescope
@@ -146,7 +127,8 @@ nnoremap <Leader>gb :Telescope git_branches<CR>
 let mapleader = " "
 
 " Reload init.vim
-nnoremap <Leader>sv :PlugInstall <bar> source $MYVIMRC<CR>
+nnoremap <Leader>sv source $MYVIMRC<CR>
+nnoremap <Leader>siv source $MYVIMRC <bar> :PlugInstall<CR>
 
 " Edit init.vim
 nnoremap <Leader>ev :e $MYVIMRC<CR>
@@ -180,27 +162,15 @@ inoremap ? ?<c-g>u
 inoremap <C-j> <C-o>:m .+1<CR>
 inoremap <C-k> <C-o>:m .-2<CR>
 
-" Close all buffers but the current one (helps when nvim is getting slow)
-nnoremap <Leader>bc :<c-u>up <bar> %bd <bar> e#<cr>
+" Change the current word
+nnoremap - *Ncgn
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Theming
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Lightline theme
-let g:lightline = {'colorscheme': 'gruvbox'}
-
-" don't show the insert status line below lightline
-set noshowmode 
-
-" Gruvbox theme
+set termguicolors
+set background=dark " or light if you want light mode
 colorscheme gruvbox
-set background=dark
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Coc explorer and undotree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Coc explorer is an extension to coc.nvim. Need to run :CocInstall explorer
-map <C-n> :CocCommand explorer<CR>
-map <Leader>u :UndotreeToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Splits and Tabbed Files
@@ -244,11 +214,6 @@ nnoremap <Leader>gl :diffget //3<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Leader b for write + Black format for python
-"nnoremap <Leader>b :w<CR> :Black<CR> :w<CR>
-nnoremap <Leader>b :!black % -l 120<CR>
-nnoremap <Leader>mp :set makeprg=mypy\ --ignore-missing-imports\ % <bar> make <CR> :copen <CR>
-
 " Don't indent on ':'
 autocmd FileType python setlocal indentkeys-=<:>
 autocmd FileType python setlocal indentkeys-=:
@@ -259,20 +224,24 @@ let g:doge_doc_standard_python = 'google'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Floaterm
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:floaterm_keymap_toggle = '<M-t>'
-let g:floaterm_keymap_next   = '<M-l>'
-let g:floaterm_keymap_prev   = '<M-h>'
-let g:floaterm_keymap_new    = '<M-n>'
+"let g:floaterm_keymap_toggle = '<M-t>'
+"let g:floaterm_keymap_next   = '<M-l>'
+"let g:floaterm_keymap_prev   = '<M-h>'
+"let g:floaterm_keymap_new    = '<M-n>'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Quickfix list
+" => Quickfix / Location list
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <Leader>qo :copen<CR>
 nnoremap <Leader>qc :cclose<CR>
+nnoremap <Leader>lo :lopen<CR>
+nnoremap <Leader>lc :lclose<CR>
 
 " Navigate between QFL entries and keep the cursor centered
-nnoremap <Leader>j :cprev<CR>zzzv
-nnoremap <Leader>k :cnext<CR>zzzv
+nnoremap <Leader>qk :cprev<CR>zzzv
+nnoremap <Leader>qj :cnext<CR>zzzv
+nnoremap <Leader>lk :lprev<CR>zzzv
+nnoremap <Leader>lj :lnext<CR>zzzv
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Harpoon
@@ -280,84 +249,7 @@ nnoremap <Leader>k :cnext<CR>zzzv
 " Note: <Enter> adds a file to the quick menu
 nnoremap <M-m> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Lua stuff
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable Treesitter highlights
-lua require ('nvim-treesitter.configs').setup { highlight = { enable = true } }
 
-" -------------------- LSP ---------------------------------
 lua << EOF
-local nvim_lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-  -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  end
-  if client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  end
-
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
-  end
-end
-
--- Setup server specific settings
-nvim_lsp.pyright.setup{ 
-    on_attach = on_attach 
-}
-nvim_lsp.rust_analyzer.setup({
-    on_attach=on_attach,
-    settings = {
-        ["rust-analyzer"] = {
-            assist = {
-                importGranularity = "module",
-                importPrefix = "by_self",
-            },
-            cargo = {
-                loadOutDirsFromCheck = true
-            },
-            procMacro = {
-                enable = true
-            },
-        }
-    }
-})
-
--- Enable LSP Colors
-require("lsp-colors").setup { Error = "#db4b4b", Warning = "#e0af68", Information = "#0db9d7", Hint = "#10B981" }
+require("lua_init_conf")
 EOF
