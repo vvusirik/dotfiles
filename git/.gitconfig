@@ -1,0 +1,31 @@
+[user]
+    email = vvusirik@gmail.com
+    name = Vishal Vusirikala
+[credential]
+	helper = cache --timeout 300
+[core]
+    editor = nvim
+[difftool]
+    prompt = true
+[diff]
+    tool = nvimdiff
+[merge]
+    tool = nvimdiff   
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+[alias]
+    co = checkout
+    br = branch
+    ci = commit
+    # Add modified / deleted files to staging and commit
+    ca = commit -a
+    st = status
+    amend = commit --amend --no-edit
+    prev = checkout HEAD^
+    unstage = restore --staged
+    # graph = log --graph --oneline --decorate
+    graph = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) <%an> %Creset' --abbrev-commit
+    # force push and auto-infer the remote branch to track
+    submit = "! git push -u origin $(git rev-parse --abbrev-ref HEAD) -f"
+[url "git@github.com:"]
+	insteadOf = https://github.com/
