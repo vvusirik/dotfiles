@@ -80,6 +80,7 @@ call plug#begin('~/.vim/plugged')
     " Smart chdir
     Plug 'airblade/vim-rooter'
 
+    " Dispatch build and compile commands
     Plug 'tpope/vim-dispatch'
 
     " Theme
@@ -94,7 +95,9 @@ call plug#begin('~/.vim/plugged')
 
     " File / Buffer Navigation
     Plug 'nvim-telescope/telescope.nvim'
-    Plug 'ThePrimeagen/harpoon'
+    
+    " TODO: messes with Enter key
+    " Plug 'ThePrimeagen/harpoon'
 
     " File explorer and icons
     Plug 'kyazdani42/nvim-web-devicons'
@@ -133,9 +136,6 @@ nnoremap <C-y> :lua require('telescope.builtin').live_grep{}<CR>
 
 " Ctrl-b for buffer search
 nnoremap <C-b> :lua require('telescope.builtin').buffers{}<CR>
-
-" <Leader>gb for git branches
-nnoremap <Leader>gb :Telescope git_branches<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Settings and mappings
@@ -255,9 +255,20 @@ nnoremap <Leader>ga :Git amend<CR>
 nnoremap <Leader>gp :Git push --force<CR>
 nnoremap <Leader>gg :Git log --oneline --decorate --graph --all<CR>
 
+" Telescope to switch git branches
+nnoremap <Leader>gb :Telescope git_branches<CR>
+
 " Merge conflict resolution (use `dv` in Git status menu to open vertical diff split on an unmerged file)
 nnoremap <Leader>gh :diffget //2<CR>
 nnoremap <Leader>gl :diffget //3<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Dispatch
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Can also use `<CR>
+nnoremap <Leader>d :Dispatch<CR>
+" Spawn in background
+nnoremap <Leader>db :Dispatch!<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python
@@ -273,17 +284,6 @@ autocmd FileType python setlocal indentkeys-=:
 let g:doge_doc_standard_python = 'google'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Floaterm
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:floaterm_keymap_toggle = '<M-t>'
-" let g:floaterm_keymap_next   = '<M-l>'
-" let g:floaterm_keymap_prev   = '<M-h>'
-" let g:floaterm_keymap_new    = '<M-n>'
-"
-" let g:floaterm_width = 0.9
-" let g:floaterm_height = 0.9
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Quickfix / Location List
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Open / close q/l list
@@ -297,11 +297,12 @@ nnoremap <Leader>qk :cprev<CR>zzzv
 nnoremap <Leader>qj :cnext<CR>zzzv
 nnoremap <Leader>lk :lprev<CR>zzzv
 nnoremap <Leader>lj :lnext<CR>zzzv
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Harpoon
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <C-m> :lua require("harpoon.mark").add_file()<CR>
-nnoremap <M-m> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+" nnoremap <C-m> :lua require("harpoon.mark").add_file()<CR>
+" nnoremap <M-m> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lua Plugin Configs
