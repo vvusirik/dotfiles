@@ -61,6 +61,9 @@ call plug#begin('~/.vim/plugged')
 
     " Snippets
     Plug 'SirVer/ultisnips'
+    
+    " Emmet for fast html tags
+    Plug 'mattn/emmet-vim'
 
     " Paren / quote completion
     Plug 'Raimondi/delimitMate'
@@ -98,6 +101,9 @@ call plug#begin('~/.vim/plugged')
     
     " TODO: messes with Enter key
     " Plug 'ThePrimeagen/harpoon'
+
+    " Floating terminal
+    Plug 'numToStr/FTerm.nvim'
 
     " File explorer and icons
     Plug 'kyazdani42/nvim-web-devicons'

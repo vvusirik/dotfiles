@@ -16,8 +16,8 @@ exec xset -dpms
 set $mod Mod4
 
 # Remove title bars
-default_floating_border pixel 1
-default_border pixel 1
+default_floating_border pixel 2
+default_border pixel 2
 # Blue border
 # client.focused #fcba03 #555555 #ffffff #2e9ef4 #CC0000
 

@@ -5,7 +5,7 @@ function M.get_git_root()
     handle:close()
     res = string.gsub(res, "[\n\r]","")
     return {res}
-end 
+end
 
 --TODO filter live grep results by .gitignore
 return M

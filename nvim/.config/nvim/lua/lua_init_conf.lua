@@ -108,7 +108,7 @@ cmp.setup {
             fallback()
           end
         end,
-      },
+    },
 
     sources = {
         { name = "nvim_lsp" },
@@ -124,17 +124,24 @@ cmp.setup {
 
 require('nvim-web-devicons').setup { default = true; }
 
-require('nvim-tree').setup {} 
+require('nvim-tree').setup {}
 map('n', '<C-n>', ':NvimTreeToggle<CR>', map_opts)
-
--- Theme
-vim.opt.termguicolors = true
-vim.o.background = "dark" -- or "light" for light mode
-vim.cmd([[colorscheme gruvbox]])
 
 -- lualine
 local gruvbox = require'lualine.themes.gruvbox-material'
 require('lualine').setup({options = {theme = gruvbox}})
+
+-- FTerm
+
+-- Toggle floating terminal
+map('n', '<M-t>', '<cmd>lua require("FTerm").toggle()<CR>', map_opts)
+map('t', '<M-t>', '<C-\\><C-n><cmd>lua require("FTerm").toggle()<CR>', map_opts)
+
+-- Attach to the float session in tmux floating terminal (good for persistence)
+FloatAttach = function()
+    require('FTerm').run('tmux a -t float || tmux new -s float')
+end
+map('n', '<M-a>', '<cmd>lua FloatAttach()<CR>', map_opts)
 
 -- commenting
 require('Comment').setup()
