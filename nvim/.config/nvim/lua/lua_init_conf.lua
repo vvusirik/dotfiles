@@ -6,7 +6,7 @@ local bufmap = vim.api.nvim_buf_set_keymap
 local map_opts = {noremap = true, silent = true}
 
 -- Treesitter
- require ('nvim-treesitter.configs').setup { highlight = { enable = true } }
+require ('nvim-treesitter.configs').setup { highlight = { enable = true } }
 
  -- LSP
 local nvim_lsp = require('lspconfig')
@@ -143,5 +143,5 @@ FloatAttach = function()
 end
 map('n', '<M-a>', '<cmd>lua FloatAttach()<CR>', map_opts)
 
--- commenting
+-- Comment
 require('Comment').setup()
