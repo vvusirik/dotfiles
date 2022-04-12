@@ -145,3 +145,60 @@ map('n', '<M-a>', '<cmd>lua FloatAttach()<CR>', map_opts)
 
 -- Comment
 require('Comment').setup()
+
+-- DAP
+-- Python DAP
+
+local dap = require('dap')
+dap.adapters.python = {
+  type = 'executable';
+  command = os.getenv('HOME') .. '/virtualenvs/debugpy/bin/python';
+  args = { '-m', 'debugpy.adapter' };
+}
+
+dap.configurations.python = {
+  {
+    type = 'python';
+    request = 'launch';
+    name = "Launch file";
+    program = "${file}";
+    pythonPath = function()
+      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+      -- The code below looks for a `env` folder in the current directly and uses the python within.
+      local cwd = vim.fn.getcwd()
+      if vim.fn.executable(cwd .. '/env/bin/python') == 1 then
+        return cwd .. '/env/bin/python'
+      else
+        return '/usr/bin/python3'
+      end
+
+      -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable:
+      -- local venv = os.getenv("VIRTUAL_ENV")
+      -- command = vim.fn.getcwd() .. string.format("%s/bin/python",venv)
+    end;
+  },
+}
+
+-- Floating windows for information
+DapScope = function()
+    local widgets = require('dap.ui.widgets')
+    local window = widgets.cursor_float(widgets.scopes)
+    window.open()
+end
+
+DapFrames = function()
+    local widgets = require('dap.ui.widgets')
+    local window = widgets.cursor_float(widgets.frames)
+    window.open()
+end
+
+map('n', '<leader>b', ':lua require"dap".toggle_breakpoint()<CR>', map_opts)
+map('n', '<leader>dn', ':lua require"dap".continue()<CR>', map_opts)
+map('n', '<leader>dc', ':lua require"dap".close()<CR>', map_opts)
+map('n', '<leader>do', ':lua require"dap".step_over()<CR>', map_opts)
+map('n', '<leader>di', ':lua require"dap".step_into()<CR>', map_opts)
+map('n', '<leaer>dx', ':lua require"dap".step_out()<CR>', map_opts)
+map('n', '<leader>dr', ':lua require"dap".repl.open()<CR><C-w>ji', map_opts)
+map('n', '<leader>d?', ':lua DapScope()<CR>', map_opts)
+map('n', '<leader>df', ':lua DapFrames()<CR>', map_opts)
+

@@ -128,6 +128,9 @@ call plug#begin('~/.vim/plugged')
 
     " Commenting
     Plug 'numToStr/Comment.nvim'
+
+    " Debug adapter protocol
+    Plug 'mfussenegger/nvim-dap'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -279,9 +282,6 @@ nnoremap <Leader>db :Dispatch!<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Leader b for write + Black format for python
-nnoremap <Leader>b :!black % -l 120<CR>
-
 " Don't indent on ':'
 autocmd FileType python setlocal indentkeys-=<:>
 autocmd FileType python setlocal indentkeys-=:
