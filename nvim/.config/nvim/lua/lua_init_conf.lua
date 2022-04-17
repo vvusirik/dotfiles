@@ -138,7 +138,7 @@ map('n', '<M-t>', '<cmd>lua require("FTerm").toggle()<CR>', map_opts)
 map('t', '<M-t>', '<C-\\><C-n><cmd>lua require("FTerm").toggle()<CR>', map_opts)
 
 -- Attach to the float session in tmux floating terminal (good for persistence)
-FloatAttach = function()
+function FloatAttach()
     require('FTerm').run('tmux a -t float || tmux new -s float')
 end
 map('n', '<M-a>', '<cmd>lua FloatAttach()<CR>', map_opts)
@@ -180,13 +180,13 @@ dap.configurations.python = {
 }
 
 -- Floating windows for information
-DapScope = function()
+function DapScope()
     local widgets = require('dap.ui.widgets')
     local window = widgets.cursor_float(widgets.scopes)
     window.open()
 end
 
-DapFrames = function()
+function DapFrames()
     local widgets = require('dap.ui.widgets')
     local window = widgets.cursor_float(widgets.frames)
     window.open()
@@ -201,4 +201,68 @@ map('n', '<leaer>dx', ':lua require"dap".step_out()<CR>', map_opts)
 map('n', '<leader>dr', ':lua require"dap".repl.open()<CR><C-w>ji', map_opts)
 map('n', '<leader>d?', ':lua DapScope()<CR>', map_opts)
 map('n', '<leader>df', ':lua DapFrames()<CR>', map_opts)
+
+-- Telescope
+local Job = require'plenary.job'
+
+-- Use Telescope's git_files if we're in a git directory, else use find_files
+function FindFilesTelescope()
+    local result = Job:new({
+      command = 'git',
+      args = { 'rev-parse', '--is-inside-work-tree' },
+    }):sync()
+
+    local count = 0
+    for key, val in pairs(result) do
+        if val then
+           require'telescope.builtin'.git_files()
+        end
+        count = count + 1
+    end
+
+    if count == 0 then
+        require'telescope.builtin'.find_files()
+    end
+end
+
+-- Ctrl-y Ripgrep for file search
+map('n', '<C-p>', ':lua FindFilesTelescope()<CR>', map_opts)
+
+-- Ctrl-y Ripgrep for live search
+map('n', '<C-y>', ':lua require("telescope.builtin").live_grep()<CR>', map_opts)
+
+-- Ctrl-b for buffer search
+map('n', '<C-b>', ':lua require("telescope.builtin").buffers()<CR>', map_opts)
+
+-- Vimwiki window toggles
+function CreateWindow(title)
+    local width = 60
+    local height = 10
+    local borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+    local bufnr = vim.api.nvim_create_buf(false, false)
+
+    local Harpoon_win_id, win = require'plenary.popup'.create(bufnr, {
+        title = title,
+        highlight = title .. "Window",
+        line = math.floor(((vim.o.lines - height) / 2) - 1),
+        col = math.floor((vim.o.columns - width) / 2),
+        minwidth = width,
+        minheight = height,
+        borderchars = borderchars,
+    })
+
+    vim.api.nvim_win_set_option(
+        win.border.win_id,
+        "winhl",
+        "Normal:HarpoonBorder"
+    )
+
+    return {
+        bufnr = bufnr,
+        win_id = Harpoon_win_id,
+    }
+end
+
+map('n', '<M-m>', ':lua CreateWindow()<CR>', map_opts)
+
 

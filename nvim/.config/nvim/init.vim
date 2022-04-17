@@ -134,19 +134,6 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Telescope
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Ctrl-p for telescope on git project files (must be in git project)
-nnoremap <C-p> :lua require('telescope.builtin').git_files{}<CR>
-nnoremap <M-p> :lua require('telescope.builtin').find_files{}<CR>
-
-" Ctrl-y for telescope ripgrep on text in project 
-nnoremap <C-y> :lua require('telescope.builtin').live_grep{}<CR>
-
-" Ctrl-b for buffer search
-nnoremap <C-b> :lua require('telescope.builtin').buffers{}<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Settings and mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = " "
