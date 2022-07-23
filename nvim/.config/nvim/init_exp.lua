@@ -1,5 +1,98 @@
--- Lua Plugin Configs
+local set = vim.opt
+local map = vim.api.nvim_set_keymap
+local map_opts = {noremap = true, silent = true}
+local inoremap = function(keys, command)
+    return map('i', keys, command, map_opts)
+end
 
+local vnoremap = function(keys, command)
+    return map('v', keys, command, map_opts)
+end
+
+local nnoremap = function(keys, command)
+    return map('n', keys, command, map_opts)
+end
+
+set.ignorecase = true           -- ignore case on search
+set.smartcase = true            -- search with case sensitivity when there is a caps letter in search query
+set.incsearch = true            -- highlight as you search
+set.nohlsearch = true           -- dont' persist highlighting after search
+set.relativenumber = true       -- relative line numbers
+set.hidden = true               -- Allows multiple buffers
+set.signcolumn = "yes"          -- Always show sign column
+set.mouse = "nicr"              -- Enable mouse in insert and normal modes
+set.cursorline = true           -- highlight current cursorline
+set.noerrorbells = true         -- highlight current cursorline
+set.expandtab = true            -- Use spaces instead of tabs.
+set.smarttab = true             -- Be smart using tabs ;)
+set.smartindent = true          -- Auto indent on next line.
+set.shiftwidth = 4              -- Auto indent step width
+set.tabstop = 4                 -- One tab == four spaces.
+set.softtabstop = 4             -- One tab == four spaces in insert mode.
+set.textwidth = 0               -- Don't autowrap long lines
+set.wrapmargin = 0              -- Don't autowrap long lines
+set.nowrap = true               -- Disable wrapping
+set.encoding = "UTF-8"          -- Encode with UTF-8
+set.scrolloff = 12              -- start scrolling at n lines from the bottom
+set.clipboard = "unnamedplus"   -- Copy/paste between vim and other programs.
+
+-- set.nu
+
+vim.g.mapleader = " "
+
+-----------------------------------------------------------------
+-- Settings and mappings
+-----------------------------------------------------------------
+-- Source init
+nnoremap("<Leader>sv", ":source $MYVIMRC<CR>")
+
+-- Re-source init and install any new plugins
+nnoremap("<Leader>siv", ":source $MYVIMRC <bar> :PlugInstall<CR>")
+
+-- Edit init.vim
+nnoremap("<Leader>ev", ":e $MYVIMRC<CR>")
+
+-- Quit all windows
+nnoremap("ZA", ":qa<CR>")
+
+-- Save current buffer
+nnoremap("<Leader>s", ":w<CR>")
+
+-- visual paste won't replace lastest register
+vnoremap("<Leader>p", '"_dP')
+
+-- Capital Y yanks till the end of line
+nnoremap("Y", "y$")
+
+-- Keep editor centered when going through search results
+nnoremap("n", "nzzzv")
+nnoremap("N", "Nzzzv")
+
+-- Keep cursor in the same position when line concat-ing
+nnoremap("J", "mzJ`z")
+
+-- Go to open / close brace with tab instead of %
+nnoremap("<Tab>", "%")
+
+-- Better undo breakpoints
+inoremap(",", ",<c-g>u")
+inoremap(".", ".<c-g>u")
+inoremap("!", "!<c-g>u")
+inoremap("?", "?<c-g>u")
+
+-- Move lines up and down and respect indent rules
+inoremap("<C-j>", "<C-o>:m .+1<CR>")
+inoremap("<C-k>", "<C-o>:m .-2<CR>")
+
+-- Current word becomes search object without moving cursor
+-- (Useful when combined with cgn for multicursor like replacements of words)
+nnoremap("+", "*N")
+nnoremap("-", "*Ncgn")
+
+
+
+
+-- Lua Plugin Configs
 -- Helper utils
 local map = vim.api.nvim_set_keymap
 local bufmap = vim.api.nvim_buf_set_keymap
@@ -141,7 +234,7 @@ map('t', '<M-t>', '<C-\\><C-n><cmd>lua require("FTerm").toggle()<CR>', map_opts)
 function FloatAttach()
     require('FTerm').run('tmux a -t float || tmux new -s float')
 end
-map('n', '<M-a>', '<cmd>lua FloatAttach()<CR>', map_opts)
+map('n', '<M-f>', '<cmd>lua FloatAttach()<CR>', map_opts)
 
 -- Comment
 require('Comment').setup()
@@ -192,15 +285,16 @@ function DapFrames()
     window.open()
 end
 
-map('n', '<leader>b', ':lua require"dap".toggle_breakpoint()<CR>', map_opts)
-map('n', '<leader>dn', ':lua require"dap".continue()<CR>', map_opts)
-map('n', '<leader>dc', ':lua require"dap".close()<CR>', map_opts)
-map('n', '<leader>do', ':lua require"dap".step_over()<CR>', map_opts)
-map('n', '<leader>di', ':lua require"dap".step_into()<CR>', map_opts)
-map('n', '<leaer>dx', ':lua require"dap".step_out()<CR>', map_opts)
-map('n', '<leader>dr', ':lua require"dap".repl.open()<CR><C-w>ji', map_opts)
-map('n', '<leader>d?', ':lua DapScope()<CR>', map_opts)
-map('n', '<leader>df', ':lua DapFrames()<CR>', map_opts)
+-- Debug Adapter Protocol
+nnoremap('<leader>b', ':lua require"dap".toggle_breakpoint()<CR>')
+nnoremap('<leader>dn', ':lua require"dap".continue()<CR>')
+nnoremap('<leader>dc', ':lua require"dap".close()<CR>')
+nnoremap('<leader>do', ':lua require"dap".step_over()<CR>')
+nnoremap('<leader>di', ':lua require"dap".step_into()<CR>')
+nnoremap('<leaer>dx', ':lua require"dap".step_out()<CR>')
+nnoremap('<leader>dr', ':lua require"dap".repl.open()<CR><C-w>ji')
+nnoremap('<leader>d?', ':lua DapScope()<CR>')
+nnoremap('<leader>df', ':lua DapFrames()<CR>')
 
 -- Telescope
 local Job = require'plenary.job'
@@ -213,7 +307,7 @@ function FindFilesTelescope()
     }):sync()
 
     local count = 0
-    for key, val in pairs(result) do
+    for _, val in pairs(result) do
         if val then
            require'telescope.builtin'.git_files()
         end
@@ -226,13 +320,13 @@ function FindFilesTelescope()
 end
 
 -- Ctrl-y Ripgrep for file search
-map('n', '<C-p>', ':lua FindFilesTelescope()<CR>', map_opts)
+nnoremap('<C-p>', ':lua FindFilesTelescope()<CR>')
 
 -- Ctrl-y Ripgrep for live search
-map('n', '<C-y>', ':lua require("telescope.builtin").live_grep()<CR>', map_opts)
+nnoremap('<C-y>', ':lua require("telescope.builtin").live_grep()<CR>')
 
 -- Ctrl-b for buffer search
-map('n', '<C-b>', ':lua require("telescope.builtin").buffers()<CR>', map_opts)
+nnoremap('<C-b>', ':lua require("telescope.builtin").buffers()<CR>')
 
 -- Vimwiki window toggles
 function CreateWindow(title)
@@ -241,7 +335,7 @@ function CreateWindow(title)
     local borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
     local bufnr = vim.api.nvim_create_buf(false, false)
 
-    local Harpoon_win_id, win = require'plenary.popup'.create(bufnr, {
+    local win_id, win = require'plenary.popup'.create(bufnr, {
         title = title,
         highlight = title .. "Window",
         line = math.floor(((vim.o.lines - height) / 2) - 1),
@@ -254,15 +348,13 @@ function CreateWindow(title)
     vim.api.nvim_win_set_option(
         win.border.win_id,
         "winhl",
-        "Normal:HarpoonBorder"
+        "Normal:" .. title .. "Border"
     )
 
     return {
         bufnr = bufnr,
-        win_id = Harpoon_win_id,
+        win_id = win_id,
     }
 end
 
-map('n', '<M-m>', ':lua CreateWindow()<CR>', map_opts)
-
-
+-- map('n', '<M-m>', ':lua CreateWindow("Todo")<CR>', map_opts)

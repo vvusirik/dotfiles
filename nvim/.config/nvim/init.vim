@@ -131,6 +131,9 @@ call plug#begin('~/.vim/plugged')
 
     " Debug adapter protocol
     Plug 'mfussenegger/nvim-dap'
+
+    " Improve QF list
+    Plug 'milkypostman/vim-togglelist'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -280,10 +283,8 @@ let g:doge_doc_standard_python = 'google'
 " => Quickfix / Location List
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Open / close q/l list
-nnoremap <Leader>qo :copen<CR>
-nnoremap <Leader>qc :cclose<CR>
-nnoremap <Leader>lo :lopen<CR>
-nnoremap <Leader>lc :lclose<CR>
+nnoremap <Leader>q :call ToggleQuickfixList()<CR>
+nnoremap <Leader>l :call ToggleLocationList()<CR>
 
 " Navigate between QFL entries and keep the cursor centered
 nnoremap <Leader>qk :cprev<CR>zzzv
@@ -300,5 +301,5 @@ nnoremap <Leader>lj :lnext<CR>zzzv
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lua Plugin Configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ~/.config/nvim/lua/lua_init_conf.lua
-lua require('lua_init_conf')
+" ~/.config/nvim/lua/init.lua
+lua require('init')
