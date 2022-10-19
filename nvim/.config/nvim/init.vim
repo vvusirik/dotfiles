@@ -3,7 +3,7 @@ filetype off                  " required
 
 set nocompatible              " be iMproved, required
 set noerrorbells
-"
+
 " ignorecase + smartcase = only pay attention to casing when there is a
 " capitalized character
 set ignorecase
@@ -102,9 +102,6 @@ call plug#begin('~/.vim/plugged')
     " TODO: messes with Enter key
     " Plug 'ThePrimeagen/harpoon'
 
-    " Floating terminal
-    Plug 'numToStr/FTerm.nvim'
-
     " File explorer and icons
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'kyazdani42/nvim-tree.lua'
@@ -131,9 +128,6 @@ call plug#begin('~/.vim/plugged')
 
     " Debug adapter protocol
     Plug 'mfussenegger/nvim-dap'
-
-    " Improve QF list
-    Plug 'milkypostman/vim-togglelist'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

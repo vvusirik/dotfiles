@@ -124,20 +124,34 @@ cmp.setup {
 
 require('nvim-web-devicons').setup { default = true; }
 
-require('nvim-tree').setup {}
-map('n', '<C-n>', ':NvimTreeToggle<CR>', map_opts)
+require('nvim-tree').setup {
+    view = {
+        adaptive_size = true
+    }
+}
+map('n', '<C-n>', ':NvimTreeFindFileToggle<CR>', map_opts)
 
 -- lualine
 local gruvbox = require'lualine.themes.gruvbox-material'
 require('lualine').setup({options = {theme = gruvbox}})
 
--- FTerm
+-- Terminal
+-- Switch to first tab (conventially where I keep my nvim term) and enter insert mode 
+map('n', '<M-t>', '1gt<CR>a', map_opts)
+map('t', '<Esc>', '<C-\\><C-N>', map_opts)
 
--- Toggle floating terminal
-map('n', '<M-t>', '<cmd>lua require("FTerm").toggle()<CR>', map_opts)
-map('t', '<M-t>', '<C-\\><C-n><cmd>lua require("FTerm").toggle()<CR>', map_opts)
+-- Switch from terminal back to last active tab
+vim.api.nvim_create_autocmd("TabLeave",  {
+    pattern = "*",
+    callback = function()
+        map('t', '<M-t>', '<cmd>tabn ' .. vim.api.nvim_tabpage_get_number(0) .. '<CR>', map_opts)
+    end
+})
 
--- Attach to the float session in tmux floating terminal (good for persistence)
+-- Go to file under cursor in a vertical split
+map('n', '<C-W>f', '<C-w>vgf', map_opts)
+map('n', '<C-W><C-F>', '<C-w>vgf', map_opts)
+
 function FloatAttach()
     require('FTerm').run('tmux a -t float || tmux new -s float')
 end
@@ -148,7 +162,6 @@ require('Comment').setup()
 
 -- DAP
 -- Python DAP
-
 local dap = require('dap')
 dap.adapters.python = {
   type = 'executable';
