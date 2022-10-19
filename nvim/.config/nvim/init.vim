@@ -144,6 +144,9 @@ nnoremap <Leader>siv :source $MYVIMRC <bar> :PlugInstall<CR>
 " Edit init.vim
 nnoremap <Leader>ev :e $MYVIMRC<CR>
 
+" Edit bash aliases
+nnoremap <Leader>ea :e ~/.bash_aliases<CR>
+
 " Quit all windows
 nnoremap ZA :qa<CR>
 
