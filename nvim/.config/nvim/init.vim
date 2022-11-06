@@ -248,7 +248,7 @@ nnoremap <Leader>cw :Cal -week<CR>
 nnoremap <Leader>gs :G<CR>
 nnoremap <Leader>gc :Git commit<CR>
 nnoremap <Leader>ga :Git amend<CR>
-nnoremap <Leader>gp :Git push --force<CR>
+nnoremap <Leader>gp :Git submit<CR>
 nnoremap <Leader>gg :Git log --oneline --decorate --graph --all<CR>
 
 " Telescope to switch git branches

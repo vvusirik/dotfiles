@@ -238,6 +238,9 @@ function FindFilesTelescope()
     end
 end
 
+-- Alt-w to change worktree
+map('n', '<M-w>', ':lua require("custom_pickers").worktrees()<CR>', map_opts)
+
 -- Ctrl-y Ripgrep for file search
 map('n', '<C-p>', ':lua FindFilesTelescope()<CR>', map_opts)
 
@@ -275,6 +278,3 @@ function CreateWindow(title)
         win_id = win_id,
     }
 end
-
--- map('n', '<M-m>', ':lua CreateWindow("Todo")<CR>', map_opts)
-
