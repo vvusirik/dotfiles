@@ -83,6 +83,9 @@ call plug#begin('~/.vim/plugged')
     " Smart chdir
     Plug 'airblade/vim-rooter'
 
+    " Tab utils
+    Plug 'gcmt/taboo.vim'
+    
     " Dispatch build and compile commands
     Plug 'tpope/vim-dispatch'
 
@@ -128,6 +131,7 @@ call plug#begin('~/.vim/plugged')
 
     " Debug adapter protocol
     Plug 'mfussenegger/nvim-dap'
+
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -209,8 +213,11 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-s> :vnew<CR>
 
-" Focus current buffer in new tab
-nnoremap <C-t> :tabnew %<CR>
+" Focus current buffer in new tab and set the tab name
+nnoremap <C-t> :TabooOpen 
+
+" rename tab
+nnoremap <Leader>tr :TabooRename 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Snippets
