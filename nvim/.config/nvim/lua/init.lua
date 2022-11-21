@@ -5,6 +5,15 @@ local map = vim.api.nvim_set_keymap
 local bufmap = vim.api.nvim_buf_set_keymap
 local map_opts = {noremap = true, silent = true}
 
+function FloatWindow(file)
+    local win = vim.api.nvim_get_current_win()
+    local height = vim.api.nvim_win_get_height(win)
+    local width = vim.api.nvim_win_get_width(win)
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_open_win(buf, true, {relative='win', row=5, col=10, width=width - 20, height=height - 10})
+    vim.api.nvim_command('e ' .. file)
+end
+
 -- Treesitter
 require ('nvim-treesitter.configs').setup { highlight = { enable = true } }
 
@@ -152,10 +161,8 @@ vim.api.nvim_create_autocmd("TabLeave",  {
 map('n', '<C-W>f', '<C-w>vgf', map_opts)
 map('n', '<C-W><C-F>', '<C-w>vgf', map_opts)
 
-function FloatAttach()
-    require('FTerm').run('tmux a -t float || tmux new -s float')
-end
-map('n', '<M-f>', '<cmd>lua FloatAttach()<CR>', map_opts)
+-- Open vimwiki todo in floating window
+map('n', '<Leader>to', '<cmd>lua FloatWindow("~/wiki/wiki/todo.md")<CR>', map_opts)
 
 -- Comment
 require('Comment').setup()

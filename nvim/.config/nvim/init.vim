@@ -50,8 +50,6 @@ call plug#begin('~/.vim/plugged')
     " Personal wiki 
     Plug 'vimwiki/vimwiki'
 
-    " Calendar plugin
-    Plug 'itchyny/calendar.vim'
 
     " Persistent undo tree
     Plug 'mbbill/undotree'
@@ -240,14 +238,6 @@ let g:vimwiki_list = [{'path':'~/wiki/wiki/', 'path_html':'~/wiki/docs/', 'auto_
 
 " Vimwiki todo status
 let g:vimwiki_listsyms = '✗○◐●✓'
-nnoremap <Leader>to :e ~/wiki/wiki/todo.md<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Calendar
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>cd :Cal -day<CR>
-nnoremap <Leader>cm :Cal -month<CR>
-nnoremap <Leader>cw :Cal -week<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fugitive 
