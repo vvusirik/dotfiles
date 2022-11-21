@@ -50,7 +50,6 @@ call plug#begin('~/.vim/plugged')
     " Personal wiki 
     Plug 'vimwiki/vimwiki'
 
-
     " Persistent undo tree
     Plug 'mbbill/undotree'
 

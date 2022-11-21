@@ -199,29 +199,6 @@ dap.configurations.python = {
   },
 }
 
--- Floating windows for information
-function DapScope()
-    local widgets = require('dap.ui.widgets')
-    local window = widgets.cursor_float(widgets.scopes)
-    window.open()
-end
-
-function DapFrames()
-    local widgets = require('dap.ui.widgets')
-    local window = widgets.cursor_float(widgets.frames)
-    window.open()
-end
-
-map('n', '<leader>b', ':lua require"dap".toggle_breakpoint()<CR>', map_opts)
-map('n', '<leader>dn', ':lua require"dap".continue()<CR>', map_opts)
-map('n', '<leader>dc', ':lua require"dap".close()<CR>', map_opts)
-map('n', '<leader>do', ':lua require"dap".step_over()<CR>', map_opts)
-map('n', '<leader>di', ':lua require"dap".step_into()<CR>', map_opts)
-map('n', '<leaer>dx', ':lua require"dap".step_out()<CR>', map_opts)
-map('n', '<leader>dr', ':lua require"dap".repl.open()<CR><C-w>ji', map_opts)
-map('n', '<leader>d?', ':lua DapScope()<CR>', map_opts)
-map('n', '<leader>df', ':lua DapFrames()<CR>', map_opts)
-
 -- Telescope
 local Job = require'plenary.job'
 
@@ -256,32 +233,3 @@ map('n', '<C-y>', ':lua require("telescope.builtin").live_grep()<CR>', map_opts)
 
 -- Ctrl-b for buffer search
 map('n', '<C-b>', ':lua require("telescope.builtin").buffers()<CR>', map_opts)
-
--- Vimwiki window toggles
-function CreateWindow(title)
-    local width = 60
-    local height = 10
-    local borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
-    local bufnr = vim.api.nvim_create_buf(false, false)
-
-    local win_id, win = require'plenary.popup'.create(bufnr, {
-        title = title,
-        highlight = title .. "Window",
-        line = math.floor(((vim.o.lines - height) / 2) - 1),
-        col = math.floor((vim.o.columns - width) / 2),
-        minwidth = width,
-        minheight = height,
-        borderchars = borderchars,
-    })
-
-    vim.api.nvim_win_set_option(
-        win.border.win_id,
-        "winhl",
-        "Normal:" .. title .. "Border"
-    )
-
-    return {
-        bufnr = bufnr,
-        win_id = win_id,
-    }
-end
