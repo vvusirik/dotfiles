@@ -145,8 +145,9 @@ local gruvbox = require'lualine.themes.gruvbox-material'
 require('lualine').setup({options = {theme = gruvbox}})
 
 -- Terminal
--- Switch to first tab (conventially where I keep my nvim term) and enter insert mode 
+-- Switch to first tab (conventially where I keep my nvim term) and enter insert mode
 map('n', '<M-t>', '1gt<CR>a', map_opts)
+-- Escape terminal to normal mode
 map('t', '<Esc>', '<C-\\><C-N>', map_opts)
 
 -- Switch from terminal back to last active tab
