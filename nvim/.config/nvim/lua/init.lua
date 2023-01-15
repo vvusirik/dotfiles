@@ -234,3 +234,8 @@ map('n', '<C-y>', ':lua require("telescope.builtin").live_grep()<CR>', map_opts)
 
 -- Ctrl-b for buffer search
 map('n', '<C-b>', ':lua require("telescope.builtin").buffers()<CR>', map_opts)
+
+-- Harpoon extension
+require("telescope").load_extension("harpoon")
+map('n', '<Enter>', ':lua require("harpoon.mark").add_file()<CR>', map_opts)
+map('n', '<M-m>', ':Telescope harpoon marks<CR>', map_opts)

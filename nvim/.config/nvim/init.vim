@@ -98,9 +98,7 @@ call plug#begin('~/.vim/plugged')
 
     " File / Buffer Navigation
     Plug 'nvim-telescope/telescope.nvim'
-    
-    " TODO: messes with Enter key
-    " Plug 'ThePrimeagen/harpoon'
+    Plug 'ThePrimeagen/harpoon'
 
     " File explorer and icons
     Plug 'kyazdani42/nvim-web-devicons'
@@ -216,6 +214,9 @@ nnoremap <C-t> :TabooOpen
 " rename tab
 nnoremap <Leader>tr :TabooRename 
 
+nnoremap <C-Tab> gt
+nnoremap <C-S-Tab> gT
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Snippets
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -284,12 +285,6 @@ nnoremap <Leader>qk :cprev<CR>zzzv
 nnoremap <Leader>qj :cnext<CR>zzzv
 nnoremap <Leader>lk :lprev<CR>zzzv
 nnoremap <Leader>lj :lnext<CR>zzzv
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Harpoon
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" nnoremap <C-m> :lua require("harpoon.mark").add_file()<CR>
-" nnoremap <M-m> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lua Plugin Configs
