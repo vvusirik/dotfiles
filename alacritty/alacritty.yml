@@ -1,0 +1,5 @@
+font:
+  size: 10  # Adjust the font size as needed
+  normal:
+    family: "FiraCode Nerd Font"  # Replace with your desired font name
+
