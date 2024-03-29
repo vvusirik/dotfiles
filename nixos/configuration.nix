@@ -80,6 +80,7 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+<<<<<<< HEAD
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vvusirik = {
     isNormalUser = true;
@@ -90,6 +91,8 @@
     ];
   };
 
+=======
+>>>>>>> 3aaac19 (Undo home manager integration, revert to using GNU Stow)
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -108,9 +111,37 @@
     dunst
     libnotify
     rofi-wayland
+<<<<<<< HEAD
     home-manager
   ];
 
+=======
+  ];
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.vvusirik = {
+    isNormalUser = true;
+    description = "Vishal Vusirikala";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+      firefox
+    ];
+  };
+  users.users.vvusirik.packages = [ 
+      gcc
+      neovim
+      llvmPackages_rocm.clang-tools-extra
+      zsh
+      oh-my-zsh
+      fzf
+      tmux
+      ripgrep
+      htop
+      navi
+      spotify
+  ]
+
+>>>>>>> 3aaac19 (Undo home manager integration, revert to using GNU Stow)
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
