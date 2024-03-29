@@ -106,10 +106,6 @@
     description = "Vishal Vusirikala";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox
-    ];
-  };
-  users.users.vvusirik.packages = [ 
       fzf
       gcc
       htop
@@ -121,7 +117,8 @@
       spotify
       tmux
       zsh
-  ]
+    ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
