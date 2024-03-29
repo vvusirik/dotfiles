@@ -125,21 +125,21 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       firefox
+      fzf
+      gcc
+      htop
+      lazygit
+      llvmPackages_rocm.clang-tools-extra
+      navi
+      neovim
+      oh-my-zsh
+      ripgrep
+      spotify
+      stow
+      tmux
+      zsh
     ];
   };
-  users.users.vvusirik.packages = [ 
-      gcc
-      neovim
-      llvmPackages_rocm.clang-tools-extra
-      zsh
-      oh-my-zsh
-      fzf
-      tmux
-      ripgrep
-      htop
-      navi
-      spotify
-  ]
 
 >>>>>>> 3aaac19 (Undo home manager integration, revert to using GNU Stow)
   # Some programs need SUID wrappers, can be configured further or are
