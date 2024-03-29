@@ -110,17 +110,17 @@
     ];
   };
   users.users.vvusirik.packages = [ 
-      gcc
-      neovim
-      llvmPackages_rocm.clang-tools-extra
-      zsh
-      oh-my-zsh
       fzf
-      tmux
-      ripgrep
+      gcc
       htop
+      llvmPackages_rocm.clang-tools-extra
       navi
+      neovim
+      oh-my-zsh
+      ripgrep
       spotify
+      tmux
+      zsh
   ]
 
   # Some programs need SUID wrappers, can be configured further or are
