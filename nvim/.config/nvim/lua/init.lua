@@ -59,7 +59,7 @@ nvim_lsp.clangd.setup { on_attach = on_attach }
 nvim_lsp.pylsp.setup { on_attach = on_attach }
 nvim_lsp.tsserver.setup { on_attach = on_attach }
 nvim_lsp.gopls.setup { on_attach = on_attach }
-nvim_lsp.sumneko_lua.setup { on_attach = on_attach }
+nvim_lsp.lua_ls.setup { on_attach = on_attach }
 nvim_lsp.rust_analyzer.setup({
     on_attach=on_attach,
     settings = {
