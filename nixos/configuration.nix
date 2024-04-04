@@ -42,8 +42,31 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  environment.pathsToLink = [ "/libexec" ];
+
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+
+    desktopManager = {
+      xterm.enable = false;
+    };
+   
+    displayManager = {
+        defaultSession = "none+i3";
+    };
+
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        dmenu #application launcher most people use
+        i3status # gives you the default i3 status bar
+        i3lock #default i3 screen locker
+        i3blocks #if you are planning on using i3blocks over i3status
+     ];
+    };
+  };
+
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -54,8 +77,8 @@
     layout = "us";
     xkbVariant = "";
   };
-  # hardware.nvidia.package = pkgs.linuxPackages.nvidia_x11;
-  # services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.package = pkgs.linuxPackages.nvidia_x11;
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -88,6 +111,7 @@
   environment.systemPackages = with pkgs; [
     vim
     brave
+    firefox
     kitty
     alacritty
     git
@@ -109,16 +133,22 @@
       fzf
       gcc
       htop
+      i3
       llvmPackages_rocm.clang-tools-extra
       navi
       neovim
       oh-my-zsh
       ripgrep
+      rustc
       spotify
+      stow
       tmux
+      wofi
       zsh
     ];
   };
+
+  programs.hyprland.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -148,3 +178,4 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
 }
+

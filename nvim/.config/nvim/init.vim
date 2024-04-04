@@ -41,7 +41,7 @@ set nu
 set nowrap
 set encoding=UTF-8
 set scrolloff=12                " start scrolling at n lines from the bottom
-set clipboard+=unnamedplus       " Copy/paste between vim and other programs.
+set clipboard+=unnamedplus      " Copy/paste between vim and other programs.
 syntax enable
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -152,6 +152,9 @@ nnoremap <Leader>ev :e $MYVIMRC<CR>
 
 " Edit bash aliases
 nnoremap <Leader>ea :e ~/.bash_aliases<CR>
+
+" Edit nixos config
+nnoremap <Leader>ec :e ~/dotfiles/nixos/configuration.nix<CR>
 
 " Quit all windows
 nnoremap ZA :qa<CR>

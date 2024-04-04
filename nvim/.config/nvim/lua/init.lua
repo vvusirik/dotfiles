@@ -1,4 +1,5 @@
 -- Lua Plugin Configs
+vim.api.nvim_set_option("clipboard", "unnamed")
 
 -- Helper utils
 local map = vim.api.nvim_set_keymap
