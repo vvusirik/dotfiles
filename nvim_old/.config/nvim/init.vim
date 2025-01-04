@@ -64,7 +64,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-surround'
 
     " Snippets
-    Plug 'SirVer/ultisnips'
+    " Plug 'SirVer/ultisnips'
     
     " Emmet for fast html tags
     Plug 'mattn/emmet-vim'

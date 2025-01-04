@@ -59,25 +59,25 @@ end
 nvim_lsp.clangd.setup { on_attach = on_attach }
 nvim_lsp.pylsp.setup { on_attach = on_attach }
 nvim_lsp.tsserver.setup { on_attach = on_attach }
-nvim_lsp.gopls.setup { on_attach = on_attach }
-nvim_lsp.lua_ls.setup { on_attach = on_attach }
-nvim_lsp.rust_analyzer.setup({
-    on_attach=on_attach,
-    settings = {
-        ["rust-analyzer"] = {
-            assist = {
-                importGranularity = "module",
-                importPrefix = "by_self",
-            },
-            cargo = {
-                loadOutDirsFromCheck = true
-            },
-            procMacro = {
-                enable = true
-            },
-        }
-    }
-})
+-- nvim_lsp.gopls.setup { on_attach = on_attach }
+-- nvim_lsp.lua_ls.setup { on_attach = on_attach }
+-- nvim_lsp.rust_analyzer.setup({
+--     on_attach=on_attach,
+--     settings = {
+--         ["rust-analyzer"] = {
+--             assist = {
+--                 importGranularity = "module",
+--                 importPrefix = "by_self",
+--             },
+--             cargo = {
+--                 loadOutDirsFromCheck = true
+--             },
+--             procMacro = {
+--                 enable = true
+--             },
+--         }
+--     }
+-- })
 
 -- LSP Colors
 require("lsp-colors").setup { Error = "#db4b4b", Warning = "#e0af68", Information = "#0db9d7", Hint = "#10B981" }
