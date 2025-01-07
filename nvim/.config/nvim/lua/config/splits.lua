@@ -17,5 +17,5 @@ map('n', '<C-s>', ':vnew<CR>', opts)
 
 -- Tabs
 map('n', '<C-t>', ':tab split<CR>', opts) -- Focus current buffer in new tab
-map('n', '<C-Tab>', 'gt', opts) -- Navigate to the next tab
-map('n', '<C-S-Tab>', 'gT', opts) -- Navigate to the previous tab
+map('n', '<C-Tab>', 'gt', opts)           -- Navigate to the next tab
+map('n', '<C-S-Tab>', 'gT', opts)         -- Navigate to the previous tab

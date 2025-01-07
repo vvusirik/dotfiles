@@ -4,6 +4,12 @@ return {
     keys = {
         { '<leader>cm', '<cmd>Mason<cr>', desc = 'Open Mason' },
     },
+    opts = {
+        ensure_installed = {
+            "isort", "black", "mypy", "pyright", "debugpy",
+            "lua-language-server",
+        }
+    },
     config = function()
         -- import mason
         local mason = require("mason")

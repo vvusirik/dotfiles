@@ -17,6 +17,7 @@ set.splitbelow       = true   -- Split below
 set.splitright       = true   -- Split right
 set.mouse            = 'nicr' -- Enable mouse scrolling in normal, insert, and command modes
 set.cursorline       = true   -- Highlight current line
+set.wrap             = false  -- Don't wrap long lines
 
 -- Search casing
 -- ignorecase + smartcase = only pay attention to casing when there is a capitalized character

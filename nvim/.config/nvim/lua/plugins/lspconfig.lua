@@ -36,13 +36,14 @@ return {
         'williamboman/mason.nvim',
         'hrsh7th/cmp-nvim-lsp',
     },
-    ft = { 'lua', 'rust', 'python' },
+    ft = { 'lua', 'rust', 'python', 'javascript', 'typescriptreact' },
     config = function(_, opts)
         local lspconfig = require('lspconfig')
         local capabilities = require('cmp_nvim_lsp').default_capabilities()
-        
-        lspconfig.pyright.setup{ on_attach = on_attach, capabilities = capabilities }
-        lspconfig.lua_ls.setup{ on_attach = on_attach, capabilities = capabilities }
-        lspconfig.rust_analyzer.setup{ on_attach = on_attach, capabilities = capabilities }
+
+        lspconfig.pyright.setup { on_attach = on_attach, capabilities = capabilities }
+        lspconfig.ts_ls.setup { on_attach = on_attach, capabilities = capabilities }
+        lspconfig.lua_ls.setup { on_attach = on_attach, capabilities = capabilities }
+        lspconfig.rust_analyzer.setup { on_attach = on_attach, capabilities = capabilities }
     end
 }

@@ -8,8 +8,9 @@ return {
     keys = {
         { '<C-n>', '<cmd>NvimTreeFindFileToggle<cr>', desc = 'Open Nvim Tree' },
     },
-    config = function()
-        require("nvim-tree").setup {}
-    end,
+    opts = {
+        hijack_netrw = true,
+        update_cwd = true,
+        update_focused_file = { enable = true }
+    }
 }
-
