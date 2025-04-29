@@ -2,8 +2,8 @@
 
 -- Function to simplify keymap setting
 local keymap = function(mode, lhs, rhs, opts)
-  opts = opts or {}
-  vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+    opts = opts or {}
+    vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
 end
 
 -- Normal mode keymaps
