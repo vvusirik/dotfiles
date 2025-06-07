@@ -12,6 +12,7 @@ return {
 			"pyright",
 			"debugpy",
 			"lua-language-server",
+			"typescript-language-server",
 		},
 	},
 	build = ":MasonUpdate",

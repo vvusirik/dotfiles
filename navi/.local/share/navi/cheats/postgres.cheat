@@ -1,0 +1,29 @@
+% psql
+
+; Commands
+
+# Start psql
+sudo -u postgres psql
+
+# Connect as user
+psql -h 127.0.0.1 -d <database> -U <user> -W
+
+# List databases
+\l
+
+# List relations
+\d
+
+# Create database
+CREATE DATABASE <database>;
+
+# Create user
+CREATE USER <user> WITH ENCRYPTED PASSWORD '<password>';
+
+# Grant all privileges to user on a database
+GRANT ALL PRIVILEGES ON DATABASE <database> TO <user>;
+
+# Grant CREATE, USAGE to user on schema
+GRANT CREATE, USAGE ON SCHEMA <schema> TO <user>;
+
+; Variables
