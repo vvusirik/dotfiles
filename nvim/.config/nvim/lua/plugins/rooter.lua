@@ -1,6 +1,6 @@
 -- Smart chdir
 return {
-    {
-        'airblade/vim-rooter',
-    },
+	{
+		"airblade/vim-rooter",
+	},
 }

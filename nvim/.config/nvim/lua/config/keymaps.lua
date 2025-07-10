@@ -21,6 +21,7 @@ keymap("n", "J", "mzJ`z", { noremap = true })
 keymap("n", "<Tab>", "%", { noremap = true })
 keymap("n", "+", "*N", { noremap = true })
 keymap("n", "-", "*Ncgn", { noremap = true })
+keymap("n", "<Leader>r", ":e!<CR>", { noremap = true })
 
 -- copy file paths
 keymap("n", "<Leader>crp", ':let @+ = expand("%")<CR>')

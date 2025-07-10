@@ -1,0 +1,11 @@
+% docker
+
+; Commands
+# List docker volumes :: d_ls_volumes
+docker volume ls
+
+# Remove docker volume :: d_rm_volumes
+docker volume rm <volume> --- --multi
+
+; Variables
+$ volume: docker volume ls | awk 'NR > 1 {print $2}'

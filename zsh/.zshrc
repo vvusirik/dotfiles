@@ -29,3 +29,5 @@ source ~/.secret_envs
 export PATH="$PATH:/home/vvusirik/.lmstudio/bin"
 # End of LM Studio CLI section
 
+# Add openai key
+export OPENAI_API_KEY=$(cat ~/openai.key)

@@ -1,0 +1,48 @@
+% docker-compose
+
+; Commands
+
+# Start all services in foreground :: dc_up
+docker compose up
+
+# Start all services in background (detached) :: dc_up_bg
+docker compose up -d
+
+# Stop and remove containers :: dc_down
+docker compose down
+
+# Restart all services :: dc_restart
+docker compose restart
+
+# Get logs of a specific service :: dc_logs
+docker compose logs <service>
+
+# Follow logs of a specific service :: dc_flogs
+docker compose logs <service> --follow | less +F
+
+# Run a shell inside a container :: dc_exec
+docker compose exec <service> sh
+
+# Run a command inside a container :: dc_cmd
+docker compose run <service> <command>
+
+; Variables
+$ service: docker compose config --services
+
+; docker compose up -d : Start all services in detached mode
+; docker compose down : Stop and remove containers, networks, etc
+; docker compose down -v : Also remove named volumes
+; docker compose restart : Restart all services
+; docker compose stop : Stop services
+; docker compose start : Start previously stopped services
+; docker compose build : Build all images
+; docker compose build {{service}} : Build a specific service
+; docker compose up --build : Build images before starting containers
+;
+; # Inspecting & Debugging
+; docker compose ps : List running services
+;
+; # Volumes & Cleanup
+; docker volume ls : List all volumes
+; docker volume rm <name> : Remove a volume
+; docker system prune : Remove all unused containers, networks, etc
