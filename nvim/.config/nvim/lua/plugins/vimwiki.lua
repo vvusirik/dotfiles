@@ -13,5 +13,6 @@ return {
 			},
 		}
 		vim.g.vimwiki_listsyms = "✗○◐●✓"
+		vim.g.vimwiki_autoheader = 1
 	end,
 }
