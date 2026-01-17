@@ -2,6 +2,7 @@ return {
 	"coder/claudecode.nvim",
 	dependencies = { "folke/snacks.nvim" },
 	config = true,
+	enabled = false,
 	opts = {
 		terminal_cmd = "~/.local/bin/claude",
 	},

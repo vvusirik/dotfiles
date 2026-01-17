@@ -36,13 +36,18 @@ return {
 	},
 	ft = { "lua", "rust", "python", "javascript", "typescriptreact" },
 	config = function(_, opts)
-		local lspconfig = require("lspconfig")
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-		lspconfig.pyright.setup({ on_attach = on_attach, capabilities = capabilities })
-		lspconfig.ts_ls.setup({ on_attach = on_attach, capabilities = capabilities })
-		lspconfig.lua_ls.setup({ on_attach = on_attach, capabilities = capabilities })
-		lspconfig.rust_analyzer.setup({ on_attach = on_attach, capabilities = capabilities })
-		lspconfig.emmet_language_server.setup({ on_attach = on_attach, capabilities = capabilities })
+		vim.lsp.config("lua_ls", { on_attach = on_attach, capabilities = capabilities })
+		vim.lsp.config("pyright", { on_attach = on_attach, capabilities = capabilities })
+		vim.lsp.config("ts_ls", { on_attach = on_attach, capabilities = capabilities })
+		vim.lsp.config("rust_analyzer", { on_attach = on_attach, capabilities = capabilities })
+		vim.lsp.config("emmet_language_server", { on_attach = on_attach, capabilities = capabilities })
+
+		vim.lsp.enable("lua_ls")
+		vim.lsp.enable("pyright")
+		vim.lsp.enable("ts_ls")
+		vim.lsp.enable("rust_analyzer")
+		vim.lsp.enable("emmet_language_server")
 	end,
 }
