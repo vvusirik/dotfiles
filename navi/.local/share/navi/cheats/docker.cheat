@@ -1,0 +1,6 @@
+% docker
+
+# docker compose exec
+docker compose exec <service> <command>
+
+$ service: docker compose ps | awk 'NR > 1 {print $1}'
