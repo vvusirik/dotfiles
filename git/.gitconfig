@@ -29,3 +29,5 @@
     submit = "! git push -u origin $(git rev-parse --abbrev-ref HEAD) -f"
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[init]
+    defaultBranch = "main"

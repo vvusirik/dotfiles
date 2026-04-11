@@ -30,7 +30,7 @@ keymap("n", "<Leader>cap", ':let @+ = expand("%:p")<CR>', { desc = "Copy Absolut
 keymap("n", "<Leader>cfp", ':let @+ = expand("%:t")<CR>', { desc = "Copy Filename" })
 
 -- Visual mode keymaps
-keymap("v", "<Leader>p", '"_dP', { desc = "Paste Without YWipe" })
+keymap("v", "<Leader>p", '"_dP', { desc = "Paste Without Yanking Selection" })
 
 -- Insert mode keymaps
 keymap("i", ",", ",<C-g>u")
@@ -41,8 +41,30 @@ keymap("i", "<C-j>", "<C-o>:m .+1<CR>", { desc = "Move Line Down" })
 keymap("i", "<C-k>", "<C-o>:m .-2<CR>", { desc = "Move Line Up" })
 
 -- Quickfix/Location List navigation
-keymap("n", "<Leader>q", ":call ToggleQuickfixList()<CR>", { desc = "Toggle Quickfix List" })
-keymap("n", "<Leader>l", ":call ToggleLocationList()<CR>", { desc = "Toggle Location List" })
+local function toggle_qf()
+	local wins = vim.fn.getwininfo()
+	for _, win in ipairs(wins) do
+		if win.quickfix == 1 and win.loclist == 0 then
+			vim.cmd("cclose")
+			return
+		end
+	end
+	vim.cmd("copen")
+end
+
+local function toggle_ll()
+	local wins = vim.fn.getwininfo()
+	for _, win in ipairs(wins) do
+		if win.quickfix == 1 and win.loclist == 1 then
+			vim.cmd("lclose")
+			return
+		end
+	end
+	vim.cmd("lopen")
+end
+
+keymap("n", "<Leader>q", toggle_qf, { desc = "Toggle Quickfix List" })
+keymap("n", "<Leader>l", toggle_ll, { desc = "Toggle Location List" })
 keymap("n", "<Leader>qk", ":cprev<CR>zzzv", { desc = "Previous Quickfix Item" })
 keymap("n", "<Leader>qj", ":cnext<CR>zzzv", { desc = "Next Quickfix Item" })
 keymap("n", "<Leader>lk", ":lprev<CR>zzzv", { desc = "Previous Location Item" })
@@ -64,5 +86,5 @@ local function toggle_term_tab()
 		vim.cmd("tabnext 1")
 	end
 end
-keymap("n", "<A-t>", toggle_term_tab)
-keymap("t", "<A-t>", toggle_term_tab)
+keymap("n", "<A-t>", toggle_term_tab, { desc = "Go to terminal tab" })
+keymap("t", "<A-t>", toggle_term_tab, { desc = "Go to previous tab" })
