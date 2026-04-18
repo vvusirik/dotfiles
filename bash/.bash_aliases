@@ -56,3 +56,5 @@ alias vori_servers='source ~/scripts/tmux_vori_servers.sh'
 # lazy git
 alias lg='lazygit'
 
+# ask claude a quick question
+alias qq='claude --print'

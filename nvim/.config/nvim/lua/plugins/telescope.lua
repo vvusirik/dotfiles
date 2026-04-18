@@ -54,7 +54,16 @@ return {
 		end
 		return {
 			{ "<C-b>", lazy_telescope("buffers"), desc = "Find buffers" },
-			{ "<C-p>", lazy_telescope("git_files", { show_untracked = true }), desc = "Find Git files" },
+			{
+				"<C-p>",
+				function()
+					local ok = pcall(require("telescope.builtin").git_files, { show_untracked = true })
+					if not ok then
+						require("telescope.builtin").find_files({ hidden = true })
+					end
+				end,
+				desc = "Find files (git or all)",
+			},
 			{ "<C-S-P>", lazy_telescope("find_files", { hidden = true }), desc = "Find files" },
 			{
 				"<C-/>",

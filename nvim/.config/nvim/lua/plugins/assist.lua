@@ -5,8 +5,8 @@ return {
 		require("assist").setup({})
 	end,
 	keys = {
-		{ "<leader>as", ":AssistSelect<cr>", mode = "v", desc = "Prompt and replace highlighted text" },
-		{ "<leader>ai", ":AssistInsert<cr>", mode = "n", desc = "Prompt to generate code" },
-		{ "<leader>aq", ":AssistMulti<cr>", mode = "n", desc = "Prompt to generate code with entries in qflist" },
+		{ "<M-a>", ":AssistSelect<cr>", mode = "v", desc = "Prompt and replace highlighted text" },
+		{ "<M-a>", ":AssistInsert<cr>", mode = "n", desc = "Prompt to generate code" },
+		{ "<M-m>", ":AssistMulti<cr>", mode = "n", desc = "Prompt to generate code with entries in qflist" },
 	},
 }

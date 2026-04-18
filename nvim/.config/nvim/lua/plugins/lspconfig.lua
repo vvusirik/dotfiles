@@ -38,11 +38,11 @@ return {
 	config = function(_, opts)
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-		vim.lsp.config("lua_ls", { on_attach = on_attach, capabilities = capabilities })
-		vim.lsp.config("pyright", { on_attach = on_attach, capabilities = capabilities })
-		vim.lsp.config("ts_ls", { on_attach = on_attach, capabilities = capabilities })
-		vim.lsp.config("rust_analyzer", { on_attach = on_attach, capabilities = capabilities })
-		vim.lsp.config("emmet_language_server", { on_attach = on_attach, capabilities = capabilities })
+		vim.lsp.config("lua_ls", { on_attach = on_attach, capabilities = capabilities, root_markers = { ".luarc.json", ".luarc.jsonc", ".git" } })
+		vim.lsp.config("pyright", { on_attach = on_attach, capabilities = capabilities, root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" } })
+		vim.lsp.config("ts_ls", { on_attach = on_attach, capabilities = capabilities, root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" } })
+		vim.lsp.config("rust_analyzer", { on_attach = on_attach, capabilities = capabilities, root_markers = { "Cargo.toml", ".git" } })
+		vim.lsp.config("emmet_language_server", { on_attach = on_attach, capabilities = capabilities, root_markers = { ".git" } })
 
 		vim.lsp.enable("lua_ls")
 		vim.lsp.enable("pyright")
