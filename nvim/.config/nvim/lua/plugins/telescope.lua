@@ -22,7 +22,7 @@ custom_pickers.worktrees = function(opts)
 			prompt_title = "Git Worktrees",
 			finder = finders.new_table({ results = worktree_list }),
 			sorter = conf.generic_sorter(opts),
-			attach_mappings = function(prompt_bufnr, map)
+			attach_mappings = function(prompt_bufnr)
 				actions.select_default:replace(function()
 					actions.close(prompt_bufnr)
 					local selection = action_state.get_selected_entry()
@@ -34,6 +34,48 @@ custom_pickers.worktrees = function(opts)
 					vim.cmd("enew")
 				end)
 				-- TODO: mappings for removing worktrees
+				return true
+			end,
+		})
+		:find()
+end
+
+custom_pickers.projects = function(opts)
+	local pickers = require("telescope.pickers")
+	local finders = require("telescope.finders")
+	local conf = require("telescope.config").values
+	local actions = require("telescope.actions")
+	local action_state = require("telescope.actions.state")
+
+	opts = opts or {}
+
+	local projects_dir = vim.fn.expand("~/Projects")
+	local dirs = vim.fn.globpath(projects_dir, "*", false, true)
+	local project_list = vim.tbl_filter(function(d)
+		return vim.fn.isdirectory(d) == 1
+	end, dirs)
+
+	pickers
+		.new(opts, {
+			prompt_title = "Projects",
+			finder = finders.new_table({
+				results = project_list,
+				entry_maker = function(entry)
+					return {
+						value = entry,
+						display = vim.fn.fnamemodify(entry, ":t"),
+						ordinal = vim.fn.fnamemodify(entry, ":t"),
+					}
+				end,
+			}),
+			sorter = conf.generic_sorter(opts),
+			attach_mappings = function(prompt_bufnr)
+				actions.select_default:replace(function()
+					actions.close(prompt_bufnr)
+					local selection = action_state.get_selected_entry()
+					vim.cmd("cd " .. selection.value)
+					print("Changed directory to " .. selection.value)
+				end)
 				return true
 			end,
 		})
@@ -77,7 +119,14 @@ return {
 				function()
 					custom_pickers.worktrees({})
 				end,
-				desc = "Find diagnostics",
+				desc = "Change worktree",
+			},
+			{
+				"<M-p>",
+				function()
+					custom_pickers.projects({})
+				end,
+				desc = "Change project",
 			},
 			{ "<C-k>", lazy_telescope("keymaps"), desc = "Fuzzy search keymaps" },
 			-- { '<C-h>', lazy_telescope('help_tags'),                 desc = 'Find help tags' },

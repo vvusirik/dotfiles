@@ -1,5 +1,3 @@
--- Keymaps configuration for Neovim using Lua
-
 -- Function to simplify keymap setting
 local keymap = function(mode, lhs, rhs, opts)
 	opts = opts or {}
@@ -23,6 +21,7 @@ keymap("n", "J", "mzJ`z", { desc = "Join Line (keep cursor pos)" })
 keymap("n", "<Tab>", "%", { desc = "Jump to Matching Bracket" })
 keymap("n", "+", "*N", { desc = "Search Word Forwards" })
 keymap("n", "-", "*Ncgn", { desc = "Search Word Backwards" })
+keymap("n", "vif", "[zV]z", { desc = "Select in fold" })
 
 -- copy file paths
 keymap("n", "<Leader>crp", ':let @+ = expand("%")<CR>', { desc = "Copy Relative Path" })
