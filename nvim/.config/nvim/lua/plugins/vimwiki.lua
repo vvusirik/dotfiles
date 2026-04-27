@@ -1,8 +1,17 @@
 return {
 	"vimwiki/vimwiki",
 	name = "vimwiki",
-	event = "BufEnter *.md",
-	keys = { "<leader>ww", "<leader>wt", "<leader>w<leader>w" },
+	lazy = false,
+	keys = {
+		"<leader>ww",
+		"<leader>wt",
+		"<leader>w<leader>w",
+		{
+			"<C-Space>",
+			"<Plug>VimwikiToggleListItem",
+			desc = "Toggle vimwiki list item",
+		},
+	},
 	init = function()
 		vim.g.vimwiki_list = {
 			{
@@ -14,5 +23,6 @@ return {
 		}
 		vim.g.vimwiki_listsyms = "✗○◐●✓"
 		vim.g.vimwiki_autoheader = 1
+		vim.g.vimwiki_global_ext = 1
 	end,
 }
