@@ -37,24 +37,9 @@ alias gr_tmp='git reset --soft HEAD~ && git restore --staged .'
 # Python
 alias pyprof='python -m cProfile'
 
-# Vori
-alias vori='cd ~/vori/ && source ~/vori/env/bin/activate'
-
-# activate vori env
-alias vorienv='source ~/vori/env/bin/activate'
-
-# vori hosts
-alias ssh_vori_1='ssh ubuntu@ec2-44-233-236-45.us-west-2.compute.amazonaws.com -i "~/Projects/vori/ssh_key.pem"'
-alias ssh_vori_2='ssh ubuntu@ec2-52-12-205-97.us-west-2.compute.amazonaws.com -i "~/Projects/vori/ssh_key.pem"'
-
-# chronos
-alias run_pipeline='python ~/vori/chronos/api/run.py'
-
-# Vori tmux server layout
-alias vori_servers='source ~/scripts/tmux_vori_servers.sh'
-
 # lazy git
 alias lg='lazygit'
 
 # ask claude a quick question
 alias qq='claude --print'
+

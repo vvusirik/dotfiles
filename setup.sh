@@ -1,2 +1,4 @@
-stow --target /home/vvusirik/ alacritty bash git i3 nixos nvim tmux zsh
-sudo stow --target /etc/nixos/ nixos
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+for dir in "$DOTFILES_DIR"/*/; do
+  stow --target "$HOME" -d "$DOTFILES_DIR" "$(basename "$dir")"
+done
