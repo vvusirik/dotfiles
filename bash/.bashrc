@@ -30,3 +30,4 @@ fi
 
 # Aliases
 source ~/.bash_aliases
+. "$HOME/.cargo/env"
