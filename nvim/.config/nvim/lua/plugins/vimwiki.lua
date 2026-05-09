@@ -11,6 +11,11 @@ return {
 			"<Plug>VimwikiToggleListItem",
 			desc = "Toggle vimwiki list item",
 		},
+		{
+			"<leader>to",
+			"<cmd>e ~/wiki/todo.md<cr>",
+			desc = "Open todo list",
+		},
 	},
 	init = function()
 		vim.g.vimwiki_list = {
